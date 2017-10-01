@@ -61,6 +61,16 @@ setupExpressions =
   , "let solo = (>>) hush"
   ]
 
+console :: Interpreter ()
+console = forever loop
+  where
+    loop :: Interpreter ()
+    loop = do
+      minput <- liftIO $ getLine
+      case minput of
+        ""    -> return ()
+        input -> runStmt minput
+
 -- observe that Interpreter () is an alias for InterpreterT IO ()
 testHint :: Interpreter ()
 testHint = do
@@ -70,3 +80,4 @@ testHint = do
   emptyLine
   forM_ setupExpressions runStmt
   emptyLine
+  console
