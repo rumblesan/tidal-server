@@ -1,9 +1,9 @@
 module Server where
 
-import           Control.Monad
-import           Language.Haskell.Interpreter
+import           Control.Monad                (forM_, forever)
+import           Data.List                    (intercalate)
 
-import           Sound.Tidal.Context
+import           Language.Haskell.Interpreter
 
 run :: IO ()
 run = do
@@ -73,7 +73,6 @@ repl = do
   say "Starting Tidal Server"
   set [languageExtensions := [OverloadedStrings]]
   setImportsQ setupImports
-  emptyLine
+  say "Loading Config"
   forM_ setupExpressions runStmt
-  emptyLine
   forever interpretLoop
